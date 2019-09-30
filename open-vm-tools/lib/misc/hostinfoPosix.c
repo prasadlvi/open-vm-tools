@@ -251,58 +251,61 @@ static const DistroInfo distroArray[] = {
 static void
 HostinfoOSVersionInit(void)
 {
-   struct hostinfoOSVersion *version;
-   struct utsname u;
-   char *extra;
-   char *p;
-
-   if (Atomic_ReadPtr(&hostinfoOSVersion)) {
-      return;
-   }
-
-   if (uname(&u) < 0) {
-      Warning("%s: unable to get host OS version (uname): %s\n",
-	      __FUNCTION__, Err_Errno2String(errno));
-      NOT_IMPLEMENTED();
-   }
-
-   version = Util_SafeCalloc(1, sizeof *version);
-   version->hostinfoOSVersionString = Util_SafeStrndup(u.release, 
-                                                       sizeof u.release);
-
-   ASSERT(ARRAYSIZE(version->hostinfoOSVersion) >= 4);
-
-   /*
-    * The first three numbers are separated by '.', if there is 
-    * a fourth number, it's probably separated by '.' or '-',
-    * but it could be preceded by anything.
-    */
-
-   extra = Util_SafeCalloc(1, sizeof u.release);
-   if (sscanf(u.release, "%d.%d.%d%s",
-	      &version->hostinfoOSVersion[0], &version->hostinfoOSVersion[1],
-	      &version->hostinfoOSVersion[2], extra) < 1) {
-      Warning("%s: unable to parse host OS version string: %s\n",
-              __FUNCTION__, u.release);
-      NOT_IMPLEMENTED();
-   }
-
-   /*
-    * If there is a 4th number, use it, otherwise use 0.
-    * Explicitly skip over any non-digits, including '-'
-    */
-
-   p = extra;
-   while (*p && !isdigit(*p)) {
-      p++;
-   }
-   sscanf(p, "%d", &version->hostinfoOSVersion[3]);
-   free(extra);
-
-   if (Atomic_ReadIfEqualWritePtr(&hostinfoOSVersion, NULL, version)) {
-      free(version->hostinfoOSVersionString);
-      free(version);
-   }
+   Warning("%s: unable to get host OS version (uname): %s\n",
+   	      __FUNCTION__, Err_Errno2String(errno));
+         NOT_IMPLEMENTED();
+//   struct hostinfoOSVersion *version;
+//   struct utsname u;
+//   char *extra;
+//   char *p;
+//
+//   if (Atomic_ReadPtr(&hostinfoOSVersion)) {
+//      return;
+//   }
+//
+//   if (uname(&u) < 0) {
+//      Warning("%s: unable to get host OS version (uname): %s\n",
+//	      __FUNCTION__, Err_Errno2String(errno));
+//      NOT_IMPLEMENTED();
+//   }
+//
+//   version = Util_SafeCalloc(1, sizeof *version);
+//   version->hostinfoOSVersionString = Util_SafeStrndup(u.release, 
+//                                                       sizeof u.release);
+//
+//   ASSERT(ARRAYSIZE(version->hostinfoOSVersion) >= 4);
+//
+//   /*
+//    * The first three numbers are separated by '.', if there is 
+//    * a fourth number, it's probably separated by '.' or '-',
+//    * but it could be preceded by anything.
+//    */
+//
+//   extra = Util_SafeCalloc(1, sizeof u.release);
+//   if (sscanf(u.release, "%d.%d.%d%s",
+//	      &version->hostinfoOSVersion[0], &version->hostinfoOSVersion[1],
+//	      &version->hostinfoOSVersion[2], extra) < 1) {
+//      Warning("%s: unable to parse host OS version string: %s\n",
+//              __FUNCTION__, u.release);
+//      NOT_IMPLEMENTED();
+//   }
+//
+//   /*
+//    * If there is a 4th number, use it, otherwise use 0.
+//    * Explicitly skip over any non-digits, including '-'
+//    */
+//
+//   p = extra;
+//   while (*p && !isdigit(*p)) {
+//      p++;
+//   }
+//   sscanf(p, "%d", &version->hostinfoOSVersion[3]);
+//   free(extra);
+//
+//   if (Atomic_ReadIfEqualWritePtr(&hostinfoOSVersion, NULL, version)) {
+//      free(version->hostinfoOSVersionString);
+//      free(version);
+//   }
 }
 
 
