@@ -1267,8 +1267,8 @@ HostinfoDefaultLinux(char *distro,            // OUT/OPT:
       break;
 
    case 4:
-      distroOut = STR_OS_OTHER_4X_FULL;
-      distroShortOut = STR_OS_OTHER_4X;
+      distroOut = "Other"; // This is a hack to return Other as the OS version for Tiny Core Linux
+      distroShortOut = "other";
       break;
 
    default:
@@ -1332,7 +1332,8 @@ HostinfoLinux(struct utsname *buf)  // IN:
    /* No LSB compliance, try the os-release standard */
    if (HostinfoOsRelease(distro, sizeof distro)) {
       HostinfoDefaultLinux(NULL, 0, distroShort, sizeof distroShort);
-      HostinfoGetOSShortName(distro, distroShort, sizeof distroShort);
+//      This is a hack to prevent returning Tiny Core Linux as the OS name
+//      HostinfoGetOSShortName(distro, distroShort, sizeof distroShort);
       goto bail;
    }
 
