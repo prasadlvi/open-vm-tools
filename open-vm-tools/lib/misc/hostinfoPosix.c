@@ -1827,13 +1827,13 @@ HostinfoDefaultLinux(char *distro,            // OUT/OPT:
       break;
 
    case 4:
-      distroOut = STR_OS_OTHER_4X_FULL;
-      distroShortOut = STR_OS_OTHER_4X;
+      distroOut = "Other"; // This is a hack to return Other as the OS version for Tiny Core Linux
+      distroShortOut = "other";
       break;
 
    case 5:
-      distroOut = STR_OS_OTHER_5X_FULL;
-      distroShortOut = STR_OS_OTHER_5X;
+      distroOut = "Other"; // This is a hack to return Other as the OS version for Tiny Core Linux
+      distroShortOut = "other";
       break;
 
    default:
@@ -1953,10 +1953,11 @@ HostinfoBestScore(char *distro,            // OUT:
       }
 
       /* If this isn't a recognized distro, specify a default. */
-      if (!HostinfoGetOSShortName(distro, osReleaseData[2],
-                                  distroShort, distroShortSize)){
+      // This is a hack to prevent returning Tiny Core Linux as the OS name
+//      if (!HostinfoGetOSShortName(distro, osReleaseData[2],
+//                                  distroShort, distroShortSize)){
          HostinfoDefaultLinux(NULL, 0, distroShort, distroShortSize);
-      }
+//      }
 
       goto bail;
    }
